@@ -1,0 +1,44 @@
+name: "My First action"
+
+description: "I made this!"
+
+inputs:
+  Icons:
+    description: "Display icons?"
+    default: "false"
+
+outputs:
+  IconResult:
+    description: "Icons or Fruits"
+    value: ${{ steps.GetFruits.outputs.random-id }}
+
+runs:
+  using: "composite"
+  steps: 
+    - shell: pwsh
+      id: GetFruits
+      run: |
+        Write-Output "::group::My Awesome Function!"
+        Write-Output "::notice File=MommaScript.ps1::Running my awesome function using runner file!"
+        Write-Output "::endgroup::"
+
+        $i = switch (${{ inputs.Icons }}) {
+          'false' {$false}
+          Default {$true}
+        }
+
+        try {
+          Write-Output "::Group::Trying to run stuff"
+          $res = $env:GITHUB_ACTION_PATH\MommaScript.ps1 -Icons:$i
+          
+          # Write to output variable
+          Write-Output "random-id=$res" >> $GITHUB_OUTPUT
+          
+          # Write to standard output
+          Write-Output "::notice::Result: $($res -join ',')"
+          Write-Output "::endgroup::"
+        }
+        catch {
+          Write-Output "::error file=MommaScript.ps1::Failed to run MommaScript!"
+        }
+
