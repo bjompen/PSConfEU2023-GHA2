@@ -29,16 +29,24 @@ runs:
 
         try {
           Write-Output "::Group::Trying to run stuff"
-          $res = $env:GITHUB_ACTION_PATH\MommaScript.ps1 -Icons:$i
-          
-          # Write to output variable
-          Write-Output "random-id=$res" >> $GITHUB_OUTPUT
+          $res = & $env:GITHUB_ACTION_PATH\MommaScript.ps1 -Icons:$i
           
           # Write to standard output
           Write-Output "::notice::Result: $($res -join ',')"
           Write-Output "::endgroup::"
+
+          # Write to output variable - Used in combination with the output keyword.
+          Write-Output "random-id=$($res -join ',')" >> $GITHUB_OUTPUT
+
+          # Set environment variables - works in the same job
+          "IconsOutput=$($res -join ',')" >> $env:GITHUB_ENV
         }
         catch {
           Write-Output "::error file=MommaScript.ps1::Failed to run MommaScript!"
         }
 
+    - shell: pwsh
+      id: RepeatFruits
+      run: |
+        Write-Output "From env: $($env:IconsOutput)"
+        Write-Output "From output: $  ($env:IconsOutput)"
