@@ -35,9 +35,6 @@ runs:
           Write-Output "::notice::Result: $($res -join ',')"
           Write-Output "::endgroup::"
 
-          # Write to output variable - Used in combination with the output keyword.
-          "IconResult=$($res -join ',')" >> $env:GITHUB_OUTPUT
-
           # Set environment variables - works in the same job
           "IconsOutput=$($res -join ',')" >> $env:GITHUB_ENV
         }
