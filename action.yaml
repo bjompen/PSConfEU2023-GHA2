@@ -22,7 +22,7 @@ runs:
         Write-Output "::notice File=MommaScript.ps1::Running my awesome function using runner file!"
         Write-Output "::endgroup::"
 
-        $i = switch (${{ inputs.Icons }}) {
+        $i = switch ('${{ inputs.Icons }}') {
           'false' {$false}
           Default {$true}
         }
