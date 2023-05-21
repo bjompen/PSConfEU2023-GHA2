@@ -45,8 +45,3 @@ runs:
           Write-Output "::error file=MommaScript.ps1::Failed to run MommaScript!"
         }
 
-    - shell: pwsh
-      id: RepeatFruits
-      run: |
-        Write-Output "From env: $($env:IconsOutput)"
-        Write-Output "From output: $  ($env:IconsOutput)"
