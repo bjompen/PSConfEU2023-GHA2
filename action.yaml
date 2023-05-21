@@ -10,7 +10,7 @@ inputs:
 outputs:
   IconResult:
     description: "Icons or Fruits"
-    value: ${{ steps.GetFruits.outputs.random-id }}
+    value: ${{ steps.GetFruits.outputs.IconResult }}
 
 runs:
   using: "composite"
@@ -36,7 +36,7 @@ runs:
           Write-Output "::endgroup::"
 
           # Write to output variable - Used in combination with the output keyword.
-          Write-Output "random-id=$($res -join ',')" >> $GITHUB_OUTPUT
+          "IconResult=$($res -join ',')" >> $env:GITHUB_OUTPUT
 
           # Set environment variables - works in the same job
           "IconsOutput=$($res -join ',')" >> $env:GITHUB_ENV
